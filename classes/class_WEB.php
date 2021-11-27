@@ -3,10 +3,10 @@
 if(!defined('APP_ROOT')){
     die('No direct access.' . PHP_EOL);
 }
-/*
+
 class WEB{
     public static $html;
-    public static function headers($h){
+    public static function headers($h=null){
         if($h === 'plain'){
             header('Content-Type: text/plain; charset=utf-8');
         } elseif('json'){
@@ -24,27 +24,15 @@ class WEB{
         }
         $content = file_get_contents($path);
         if($data){
-            foreach($data as $field){
-                //str_replace_a
+            foreach($data as $key => $value){
+                $content = str_replace('%' . $key . '%', $value, $content);
             }
         }
         self::$html .= $content;
+        register_shutdown_function(function(){
+            echo self::$html;
+        });
     }
 }
-*/
 
-/*
-// WEB::headers();            // Default, text/html 
-WEB::headers('plain');     // text/plain utf8
-WEB::headers('json');      // Json utf8
 
-WEB::loadTemplatePart('path/to/file', [
-    'toreplace1' => $replaceval1, # %toreplace1%
-    'toreplace2' => $replaceval2
-    ]
-);
-
-register_shutdown_function(function(){
-    echo WEB::$html;
-});
-*/
