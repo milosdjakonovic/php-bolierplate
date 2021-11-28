@@ -1,17 +1,18 @@
 <?php
 /**
- * 
  * php-bolierplate | Milos Dakonovic @dknvc
  * A generic, minimalistic boilerplate for php applications.
- * 
- * 
 **/
 
-
 /**
+ * I.
+ * Define some useful constants, $conf global variable, get
+ * app's configuration from a file.
  * 
- * 1.
- * Define some useful constants + mandatory $conf global variable
+ *  DS, eol, crlf - a shorter aliases
+ *  APP_ROOT - points to base directory of application
+ *  LOGDIR   - application logs directory
+ *  DATADIR  - a various data directory
 **/
 define('DS',       DIRECTORY_SEPARATOR);
 define('eol',      PHP_EOL);
@@ -30,9 +31,8 @@ if(file_exists(APP_ROOT . DS . 'conf' . DS . 'application.ini')){
 // --------------------------------------------------------------------------------------------------------------------------------------
 
 /**
- * 
- * 2.
- * (re)set some very basic values
+ * II.
+ * (re)set some very basic values, like memory limit, timeout, error logging, include path.
  */
 #Memory limit, 128MB default
 (!isset($GLOBALS['conf']['memory_limit'])) ? ini_set('memory_limit', '128M') : ini_set('memory_limit', $GLOBALS['conf']['memory_limit']);
@@ -50,9 +50,12 @@ set_include_path(get_include_path() . PATH_SEPARATOR . APP_ROOT . DS . 'includes
 // --------------------------------------------------------------------------------------------------------------------------------------
 
 /**
- * 3.
- * Determinate environment type
+ * III.
+ * Determinate environment type and define additional constants:
  * 
+ *  OS      - WIN  or *nix
+ *  REQTYPE - web  or command line
+ *  APPENV  - prod or devtest
 **/
 if(strtoupper(substr(PHP_OS, 0, 3)) === 'WIN'){
     define('OS', 'win');
@@ -87,9 +90,8 @@ if( isset($conf['prod']) && $conf['prod'] === '1'){
 // --------------------------------------------------------------------------------------------------------------------------------------
 
 /**
- * 4.
- * Set autoload
- * 
+ * IV.
+ * Set basic autoload to classes directory.
 **/
 spl_autoload_register(function($class){
     include 'classes' . DS . 'class_' . $class . '.php';
@@ -98,7 +100,7 @@ spl_autoload_register(function($class){
 // --------------------------------------------------------------------------------------------------------------------------------------
 
 /**
- * 5.
+ * V.
  * There you go. Happy coding!
  * 
  * The recommended way is not to start from here/write to this file,

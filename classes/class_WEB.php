@@ -5,8 +5,19 @@ if(!defined('APP_ROOT')){
 }
 
 class WEB{
+
+    // Output var
     public static $html;
-    public static function headers($h=null){
+
+    /**
+     * Set Content-Type header:
+     * @param $h
+     *  no arg   - text/html; charset=utf-8
+     *  `plain`  - text/plain; charset=utf-8
+     *  `json`   - application/json; charset=utf-8
+     *  `xml`    - application/xml; charset=utf-8
+     */
+    public static function ContentType($h=null){
         if($h === 'plain'){
             header('Content-Type: text/plain; charset=utf-8');
         } elseif('json'){
@@ -17,9 +28,16 @@ class WEB{
             header('Content-Type: text/html; charset=utf-8');
         }
     }
-    public static function loadTemplatePart($path, $data=false){
+    /**
+     * Add to output template from $path, with optional symbol-value replacement.
+     * Symbol should be in format %alphanumericstring%
+     * all occurences in the template shall be replaced.
+     * @param $path | string | a path to the template
+     * @param $data | associative array of symbols and values.
+    **/
+    public static function templateFromFile($path, $data=false){
         if(!file_exists($path)|| !is_readable($path)){
-            error_log('CLI::loadTemplatePart cannnot read the file specified');
+            error_log('CLI::templateFromFile cannnot read the file specified');
             return false;
         }
         $content = file_get_contents($path);
@@ -29,10 +47,27 @@ class WEB{
             }
         }
         self::$html .= $content;
-        register_shutdown_function(function(){
-            echo self::$html;
-        });
     }
+
+    /**
+     * Add $content to the output
+     * @param $content | string
+    **/
+    public static function add($content){
+        self::$html .= $content;
+    }
+
+    /**
+     * Add HTML/XML element to the output
+     * 'h1', '.class .classtwo #ofID [attrKey=attrValue]'
+    **/
+    public static function addEl($el, $attrs, $content){
+
+    }
+
 }
 
-
+register_shutdown_function(function(){
+    ob_clean();
+    echo WEB::$html;
+});
