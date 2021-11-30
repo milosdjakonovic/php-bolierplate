@@ -59,10 +59,10 @@ class WEB{
 
     /**
      * Add HTML/XML element to the output
-     * 'h1', '.class .classtwo #ofID [attrKey=attrValue]'
+     * WEB::addEl('div #someID .classOne .classTwo [attrKey=attrValue]', $content)
     **/
-    public static function addEl($el, $attrs, $content){
-
+    public static function addEl($elExpression, $content){
+        
     }
 
 }
