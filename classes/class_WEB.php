@@ -57,14 +57,6 @@ class WEB{
         self::$html .= $content;
     }
 
-    /**
-     * Add HTML/XML element to the output
-     * WEB::addEl('div #someID .classOne .classTwo [attrKey=attrValue]', $content)
-    **/
-    public static function addEl($elExpression, $content){
-        
-    }
-
 }
 
 register_shutdown_function(function(){
