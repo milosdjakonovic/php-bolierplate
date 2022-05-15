@@ -57,6 +57,31 @@ class WEB{
         self::$html .= $content;
     }
 
+    public static function dbg($value){
+        self::$html .= '<style>';
+        self::$html .= <<<DDD
+pre.dbg9y8f{
+    font-family: SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;padding: 0.2rem 0.4rem;
+    font-size: 87%;
+    color: #fff;
+    background-color: #212529;
+    border-radius: 0.2rem;
+    display:block;
+    width:100%;
+    padding: .87rem;
+    margin: .87rem;
+    overflow-x:scroll;
+    position:relative;
+    z-index:999 !important;
+}
+DDD;
+        self::$html .= '</style>';
+        self::$html .= 
+        '<pre class=\'dbg9y8f\'>';
+        self::$html .= print_r($value, 1);
+        self::$html .= '</pre>';
+    }
+
 }
 
 register_shutdown_function(function(){

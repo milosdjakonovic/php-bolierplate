@@ -76,6 +76,7 @@ class CLI{
      * Simple wrapper around PHP's exec function
      * @argument $command   | string | a command to execute
      * @argument $arguments | array  | optional arguments (to be sanitized)
+     * @argument $env       | array  | optional associative array of name-values to be set as ENV vars
      * 
      * @return array 
      * [
@@ -86,10 +87,16 @@ class CLI{
      * Usage:
      * CLI::exec('whoami');
      * CLI::exec('command', ['param1', 'param2']);
+     * CLI::exec('mysqldump', ['-u', 'root', 'dbname', '>', 'dbname.sql'], ['MYSQL_PWD'=>'secret']);
      * 
     **/
-    public static function exec($command, $arguments = []){
+    public static function exec($command, $arguments = [], $env = []){
         $ret = [];
+        if(!empty($env)){
+            foreach($env as $envkey=>$envval){
+                putenv($envkey . '=' . $envval);
+            }
+        }
         if(empty($arguments)){
             exec($command, $output, $retval);
         } else {
@@ -101,6 +108,12 @@ class CLI{
         }
         $ret['output'] = implode(eol, $output);
         $ret['status'] = $retval;        
+        // Sure, delete the env var afterwards
+        if(!empty($env)){
+            foreach($env as $envkey=>$envval){
+                putenv($envkey);
+            }
+        }
         return $ret;
     }
 
