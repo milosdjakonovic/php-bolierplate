@@ -85,6 +85,7 @@ DDD;
 }
 
 register_shutdown_function(function(){
-    ob_clean();//
+    ob_clean();
+    ContentType();
     echo WEB::$html;
 });
